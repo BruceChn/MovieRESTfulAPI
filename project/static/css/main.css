@@ -6,7 +6,12 @@ body {
 	background: #ffffff;
 	padding: 60px 0;
 }
+.col-lg-12
+{
+	padding-left :0px;
+}
 .footer {
+	font-size :13px;
 	padding-top:30px;
 }
 a, h1, h2 {

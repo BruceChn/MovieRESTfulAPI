@@ -7,8 +7,10 @@
 		<meta name = "description" content = "">
 		<meta name = "author" content = "">
 		<title>Free Movies Database</title>
-		<link rel = "stylesheet" href = "{{ url_for('static',filename = 'css/main.css')}}">
+	
 		<link rel = "stylesheet" href = "{{ url_for('static',filename = 'css/bootstrap.min.css')}}">
+		<link rel = "stylesheet" href = "{{ url_for('static',filename = 'css/main.css')}}">
+		
 		
 		
 	</head>
@@ -22,15 +24,18 @@
 					<span class = "icon-bar"></span>
 					<span class = "icon-bar"></span>
 				</button>
-				<a class = "navbar-brand" href = "/">MovieDataBase</a>
+				<a class = "navbar-brand" href = "#top" id = "backtop">MovieDataBase</a>
 			</div>
-			<div class = "collapse navbar-collapse">
+			<div class = "collapse navbar-collapse" id = "sidebar">
 				<ul class = "nav navbar-nav">
-						<li><a href = "/">Usage</a></li>
+						<li><a id = "usagelink" href = "#usage">Usage</a></li>
+						<li><a id = "parameterslink" href = "#parameters">Parameters</a></li>
+						<li><a id = "querylink" href = "#query">Query</a></li>
 				</ul>
 				
 				<ul class = "nav navbar-nav navbar-right">
-					<li><a>Welcome,{{session.name}}.</a><li>
+					<li><a>Welcome</a><li>
+					<li><a href = "mailto:zhenweichen1992@gmail.com">Contact </a><li>
 				<ul>
 
 			</div>
@@ -38,12 +43,7 @@
 		</div>
 		<div class = "container">
 			<div class = "content">
-				{% for message in get_flashed_messages() %}
-					<div class = "alert alert-success">{{message}}</div>
-				{% endfor %}
-				{% if error %}
-					<div class = "error"><strong>Error:</strong>{{error}}</div>
-				{% endif %}
+			
 				
 		{% block content %}
 		{% endblock content %}
@@ -51,12 +51,79 @@
 			</div>
 			<div class = "footer">
 				<hr>
-				<p>&copy;<a href = "https://www.google.com">Zhenwei Chen</a></p>
+				<p>&copy;<a href = "mailto:zhenweichen1992@gmail.com">Zhenwei Chen</a></p>
+				<p>This data is coming from<a href = "http://www.imdb.com">IMDb.com</a></p>
 			</div>
 		</div>
 		
 		<!-- scripts -->
-		<script scr = "../static/js/jquery-3.0.0.js"></script>
+		<script src = "../static/js/jquery.js"></script>
 		<script src = "../static/js/bootstrap.min.js"></script>
+		<script src = "../static/js/bootstrap.js"></script>
+<script>
+function goToByScroll(id){
+    id = id.replace("link", "");
+    $('html,body').animate({
+       scrollTop: $("#"+id).offset().top},
+      'slow');
+};
+$("#backtop").click(function(e){
+	e.preventDefault();
+	
+	$('html,body').animate({
+	 scrollTop: 0},
+      'slow');
+});
+$("#sidebar > ul > li > a").click(function(e) { 
+      //Prevent a page reload when a link is pressed
+		e.preventDefault(); 
+      // Call the scroll function
+		goToByScroll(this.id);           
+});
+
+ $(document).ready(function()
+ {
+	$("#search-by-title-form").on('submit',function(e){
+		e.preventDefault();
+		query();
+	});
+ });
+ function query()
+ {
+	$.ajax({
+	url: "/query",
+	type: "POST",
+	data: $("form").serialize(),
+	
+	
+	success : function(json) 
+	{
+		console.log(json)
+		$("#search-by-title-response").show();
+		$("#query-url").show();
+		if($("#request").length == 0)
+		{
+			$("#query-url").append("<pre class = 'alert alert-success' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://localhost:5000/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
+		}
+		else
+		{	
+			$('#request').remove();
+			$("#query-url").append("<pre class = 'alert alert-success' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://localhost:5000/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
+		}
+		if($('#response').length == 0){
+			$("#search-by-title-response").append("<pre class = 'alert alert-success' style = 'margin-bottom:;white-space:normal;' id = 'response'>" + JSON.stringify(json) + "</pre>");
+		}
+		else
+		{
+			$('#response').remove();
+			$("#search-by-title-response").append("<pre class = 'alert alert-success' style = 'margin-bottom:;white-space:normal;' id = 'response'>" + JSON.stringify(json) + "</pre>");
+		}
+		console.log("success")
+	},
+	
+	error : function(json){console.log(json.responseText);}
+	});
+ };
+	</script>
 	</body>
 </html>

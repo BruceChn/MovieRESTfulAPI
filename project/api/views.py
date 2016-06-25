@@ -11,7 +11,7 @@ def movie():
 		return make_response(jsonify(result),code)
 	result = db.movies.find_one({"Title":request.args['t'],"Year":{'$regex': request.args['y']}},{'_id':0})
 	
-	print result
+
 	if result:
 		code = 200
 		return make_response(jsonify(result),code)

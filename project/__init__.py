@@ -6,7 +6,7 @@ from pymongo import MongoClient
 
 app = Flask(__name__)
 app.config.from_pyfile('_config.py')
-db = MongoClient('localhost:27017').mv
+db = MongoClient('54.237.243.112:27017').mv
 
 from project.api.views import api_blueprint
 from project.main.views import main_blueprint

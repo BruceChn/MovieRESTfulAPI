@@ -9,7 +9,7 @@ def add_city(db):
 def get_db():
     # For local use
     from pymongo import MongoClient
-    client = MongoClient('localhost:27017')
+    client = MongoClient('54.237.243.112:27017')
     # 'examples' here is the database name. It will be created if it does not exist.
     db = client.mv
     return db	

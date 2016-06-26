@@ -41,6 +41,22 @@
 			</div>
 		</div>
 		</div>
+		<div class = "modal fade" id = "alert" role = "dialog">
+		<div class = "modal-dialog">
+			<div class = "modal-content">
+				<div class = "modal-header">
+				<button type = "button" class = "close" data-dismiss ="modal">&times;</button>
+				<h4 class="modal-title">Error!</h4>
+			</div>
+			<div class="modal-body">
+				<p>Both Fields must be filled out</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 		<div class = "container">
 			<div class = "content">
 			
@@ -52,13 +68,13 @@
 			<div class = "footer">
 				<hr>
 				<p>&copy;<a href = "mailto:zhenweichen1992@gmail.com">Zhenwei Chen</a></p>
-				<p>This data is coming from<a href = "http://www.imdb.com">IMDb.com</a></p>
+				<p>This data comes from<a href = "http://www.imdb.com">IMDb.com</a></p>
 			</div>
 		</div>
 		
 		<!-- scripts -->
 		<script src = "../static/js/jquery.js"></script>
-		<script src = "../static/js/bootstrap.min.js"></script>
+		<!--<script src = "../static/js/bootstrap.min.js"></script>-->
 		<script src = "../static/js/bootstrap.js"></script>
 <script>
 function goToByScroll(id){
@@ -80,11 +96,22 @@ $("#sidebar > ul > li > a").click(function(e) {
       // Call the scroll function
 		goToByScroll(this.id);           
 });
-
+$(document).keydown(function(e){
+	if(e.keyCode == 27)
+	{	
+		$("#alert").modal('hide');
+	}
+});
  $(document).ready(function()
  {
 	$("#search-by-title-form").on('submit',function(e){
 		e.preventDefault();
+		
+		if ($("#y").val() == null || $("#y").val() == "" || $("#t").val() == null || $("#t").val() == "")
+		{
+			$("#alert").modal({keyboard:true})
+			return false;
+		}
 		query();
 	});
  });
@@ -103,12 +130,12 @@ $("#sidebar > ul > li > a").click(function(e) {
 		$("#query-url").show();
 		if($("#request").length == 0)
 		{
-			$("#query-url").append("<pre class = 'alert alert-success' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://localhost:5000/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
+			$("#query-url").append("<pre class = 'alert alert-info' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://localhost:5000/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
 		}
 		else
 		{	
 			$('#request').remove();
-			$("#query-url").append("<pre class = 'alert alert-success' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://localhost:5000/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
+			$("#query-url").append("<pre class = 'alert alert-info' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://localhost:5000/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
 		}
 		if($('#response').length == 0){
 			$("#search-by-title-response").append("<pre class = 'alert alert-success' style = 'margin-bottom:;white-space:normal;' id = 'response'>" + JSON.stringify(json) + "</pre>");
@@ -121,7 +148,33 @@ $("#sidebar > ul > li > a").click(function(e) {
 		console.log("success")
 	},
 	
-	error : function(json){console.log(json.responseText);}
+	error : function(json){
+		
+		$("#search-by-title-response").show();
+		$("#query-url").show();
+		if($("#request").length == 0)
+		{
+			$("#query-url").append("<pre class = 'alert alert-info' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://localhost:5000/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
+		}
+		else
+		{	
+			$('#request').remove();
+			$("#query-url").append("<pre class = 'alert alert-info' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://localhost:5000/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
+			
+		}
+		if($('#response').length == 0)
+		{
+			$("#search-by-title-response").append("<pre class = 'alert alert-danger' style = 'margin-bottom:;white-space:normal;' id = 'response'>" + json.responseText + "</pre>");
+			
+		}
+		else
+		{
+			$('#response').remove();
+			$("#search-by-title-response").append("<pre class = 'alert alert-danger' style = 'margin-bottom:;white-space:normal;' id = 'response'>" + json.responseText + "</pre>");
+			
+		}
+		console.log("error")
+	}
 	});
  };
 	</script>

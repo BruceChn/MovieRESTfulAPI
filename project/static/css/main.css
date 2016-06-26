@@ -1,10 +1,27 @@
 head {
 	display:block;
 }
+
 body {
 	font-family: sans-serif;
 	background: #ffffff;
 	padding: 60px 0;
+}
+#alert
+{
+
+	top:50%;
+
+}
+.modal-title
+{
+	text-align:center;
+}
+.modal-header
+{
+	background-color:#f2dede;
+	border-color:#ebccd1
+	
 }
 .col-lg-12
 {

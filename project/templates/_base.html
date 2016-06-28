@@ -130,12 +130,12 @@ $(document).keydown(function(e){
 		$("#query-url").show();
 		if($("#request").length == 0)
 		{
-			$("#query-url").append("<pre class = 'alert alert-info' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://localhost:5000/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
+			$("#query-url").append("<pre class = 'alert alert-info' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://movieapi.mmsguygnd2.us-west-2.elasticbeanstalk.com/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
 		}
 		else
 		{	
 			$('#request').remove();
-			$("#query-url").append("<pre class = 'alert alert-info' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://localhost:5000/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
+			$("#query-url").append("<pre class = 'alert alert-info' style = 'margin-bottom:;white-space:normal;' id = 'request'>" + "http://movieapi.mmsguygnd2.us-west-2.elasticbeanstalk.com/api/movies/?" + "t=" + encodeURIComponent($("#t").val())  + "&y=" + encodeURIComponent($("#y").val()) + "</pre>");
 		}
 		if($('#response').length == 0){
 			$("#search-by-title-response").append("<pre class = 'alert alert-success' style = 'margin-bottom:;white-space:normal;' id = 'response'>" + JSON.stringify(json) + "</pre>");

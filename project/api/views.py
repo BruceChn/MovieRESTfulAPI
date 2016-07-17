@@ -9,7 +9,10 @@ def movie():
 		result = {"error":"You must use Title and Year info to get results"}
 		code = 400
 		return make_response(jsonify(result),code)
-	result = db.movies.find_one({"Title":request.args['t'],"Year":{'$regex': request.args['y']}},{'_id':0})
+
+	
+	
+	result = db.movies.find_one({"Title":{'$regex':request.args['t'],'$options':'i'},"Year":{'$regex': request.args['y']}},{'_id':0})
 	
 
 	if result:

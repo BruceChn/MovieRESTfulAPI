@@ -16,9 +16,9 @@ def mainpage():
 @main_blueprint.route('/query',methods = ['GET','POST'])
 def query():
 	result = {"error":"Element does not exist"}
-	print request.form['title']
-	result = db.movies.find_one({"Title":request.form['title'],"Year":{"$regex":request.form['year']}},{"_id":0})
-	print result
+
+	result = db.movies.find_one({"Title":{'$regex':request.form['title'],'$options':'i'},"Year":{'$regex': request.form['year']}},{'_id':0})
+	
 	if result:
 		code = 200
 		return make_response(jsonify(result),code)
